@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../assets/styles/components/Registro.scss'
 
-const Registro = () => (
+const Register = () => (
     <section className="register">
     <section className="register__container">
       <h2>Regístrate</h2>
@@ -17,4 +17,4 @@ const Registro = () => (
   </section>
 )
 
-export default Registro
+export default Register
