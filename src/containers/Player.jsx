@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import NotFound from './NotFound'
 import '../assets/styles/components/Player.scss'
+import { getVideoSource } from '../actions'
 
 const Player = props => {
-    return(
+    const { id } = props.match.params
+    const isPlaying = Object.keys(props.playing).length > 0
+    useLayoutEffect(() => {
+        props.getVideoSource(id)
+    }, [])
+    return isPlaying ? (
         <div className="player">
             <video autoPlay controls>
-                <source src="/player/:id" type="video/mp4"/>
+                <source src={props.playing.source} type="video/mp4"/>
             </video>
             <div className="player-back">
                 <button type="button" onClick={()=> {
@@ -13,7 +22,18 @@ const Player = props => {
                 }}>Regresar</button>
             </div>
         </div>
-    )
+    ):
+        <NotFound />
 }
 
-export default Player
+const mapStateToProps = state => {
+    return {
+        playing: state.playing
+    }
+}
+
+const mapDispatchToProps = {
+    getVideoSource,
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Player)
